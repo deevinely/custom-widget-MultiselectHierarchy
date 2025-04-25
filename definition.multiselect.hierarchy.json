@@ -1,0 +1,170 @@
+{
+  "id": "insightcubes.iqcc_hierarchy_multiselect",
+  "version": "0.9.0",
+  "name": "InsightCubes Multiselect Hierarchy View",
+  "description": "Displays a hierarchical view of input data items with multiple selection",
+  "newInstancePrefix": "IQ Multiselect",
+  "icon": "https://insightcubes.com/sacwidgets/iq-16x16-1.png",
+  "vendor": "Insight Cubes",
+  "eula": "",
+  "license": "",
+  "imports": [],
+  "webcomponents": [
+    {
+      "kind": "main",
+      "tag": "insightcubes-hierarchy-multiselect",
+      "url": "https://insightcubes.com/sacwidgets/insightcubes_multiselect_hierarchy/component.js",
+      "integrity": "sha384-kpe27DCW+1QtkcmVlhj4KKwGciytzReA6Pdfv8QgwklM8STZGss4PLszIuhzuL5x",
+      "ignoreIntegrity": true
+    }
+  ],
+  "properties": {
+    "debugEnabled": {
+      "type": "boolean",
+      "description": "Enables or disables debug mode",
+      "default": false
+    },
+    "displayMessage": {
+      "type": "string",
+      "description": "Message displayed at the top of the widget",
+      "default": ""
+    },
+    "displaySelection": {
+      "type": "boolean",
+      "description": "Controls whether selection confirmation UI is shown",
+      "default": false
+    },
+    "nodesExpandedByDefault": {
+      "type": "boolean",
+      "description": "Controls whether hierarchy nodes are expanded by default",
+      "default": false
+    }
+  },
+  "methods": {
+    "setDebugEnabled": {
+      "description": "Enables or disables debug mode. When off, all console logging within the widget is disabled. Off by default.",
+      "parameters": [
+        {
+          "name": "trueOrFalse",
+          "type": "boolean"
+        }
+      ]
+    },
+    "setDisplayMessage": {
+      "description": "Sets the text shown at the top of the widget. Set to an empty string to hide. Hidden by default.",
+      "parameters": [
+        {
+          "name": "message",
+          "type": "string"
+        }
+      ]
+    },
+    "setDisplaySelection": {
+      "description": "If true, the widget will display a 'Confirm Selection' button, and a 'change selection` item. Note that when this setting is false, the 'onSelectionConfirmed' event does not fire, and the 'onSelectionCleared' event only fires when the 'clearSelection' method is called manually.",
+      "parameters": [
+        {
+          "name": "trueOrFalse",
+          "type": "boolean"
+        }
+      ]
+    },
+    "setNodesExpandedByDefault": {
+      "description": "Controls whether hierarchy nodes are expanded by default. When true, all parent nodes will be initially expanded. When false, only top-level nodes (scopes) will be expanded initially.",
+      "parameters": [
+        {
+          "name": "trueOrFalse",
+          "type": "boolean"
+        }
+      ]
+    },
+    "clearItems": {
+      "description": "Removes all item data. Note that if there are any selected items, the 'onSelectionCleared' will trigger, since the selection will also be cleared when this method removes item data."
+    },
+    "addItem": {
+      "description": "Add a new data item. Note that a ID's are unique, so that when adding the same item ID twice, the second case is ignored and will have no effect.",
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "The unique ID of the item"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "The display name of the item"
+        },
+        {
+          "name": "parentId",
+          "type": "string",
+          "description": "The parent ID of the item. Use empty string if there is no parent ID"
+        },
+        {
+          "name": "selectable",
+          "type": "boolean",
+          "description": "Determines whether this item is selectable or not. In the latter case, the data item will not have a checkbox next to it. Defaults to false."
+        },
+        {
+          "name": "selected",
+          "type": "boolean",
+          "description": "Specifies whether this item is initially selected (checked) or not. Defaults to false."
+        }
+      ],
+      "returnType": "boolean"
+    },
+    "dataReady": {
+      "description": "Tell the component that all data items have been added.",
+      "returnType": "boolean"
+    },
+    "hasSelection": {
+      "description": "Returns true if at least one data item has been checked.",
+      "returnType": "boolean"
+    },
+    "toggleSelection": {
+      "description": "This method mimicks a user checking or unchecking a data item's checkbox. Has no effect for ID's added with the selectable=false option. Calling this method will generate 'onItemChecked' or 'onItemUnchecked' events.",
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "The ID of the data item, that was previously added with the 'addItem` method."
+        },
+        {
+          "name": "isChecked",
+          "type": "boolean",
+          "description": "true for checking items, false for unchecking items."
+        }
+      ],
+      "returnType": "boolean"
+    },
+    "getSelectedIds": {
+      "description": "Get the selected item ID's, as an array of strings. Note that the order of items in the array will mirror the order in which the items were checked.",
+      "returnType": "string[]"
+    },
+    "isItemIdSelected": {
+      "description": "Checks whether the given item ID is currently checked or not.",
+      "returnType": "boolean"
+    },
+    "clearSelection": {
+      "description": "Clears the current selection of item ID's, if any. Note that this will raise a 'onSelectionCleared' event."
+    }
+  },
+  "events": {
+    "onItemChecked": {
+      "description": "Raised when a user checks a data item's checkbox, or when the 'toggleSelection' method results in an item being selected"
+    },
+    "onItemUnchecked": {
+      "description": "Raised when a user unchecks a data item's checkbox, or when the 'toggleSelection' method results in an item being unselected."
+    },
+    "onItemsConfirmed": {
+      "description": "Raised when a user clicks on the 'Confirm Selection' button. Note this event is only raised when the widget instance is configured with the 'setDisplaySelection(true)' method."
+    },
+    "onSelectionCleared": {
+      "description": "Raised when a user clicks on the 'Change Selection' button, which is only displayd with the 'setDisplaySelection(true)' setting."
+    },
+    "onNodeExpanded": {
+      "description": "Raised when a user expands a node in the hierarchy by clicking the expand icon."
+    },
+    "onNodeCollapsed": {
+      "description": "Raised when a user collapses a node in the hierarchy by clicking the collapse icon."
+    }
+  }
+}
